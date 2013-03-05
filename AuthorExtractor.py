@@ -49,6 +49,7 @@ def get_authors(page):
             authors.append(name.encode('utf-8'))
     return authors
     
+# There are several malformed names in MORElab's publication repository
 def is_malformed(name):
     malformedNames = ['fern', 'others', 'deusto',  'd.t.t.f.', 'spain', 'd.b.']
     return name in malformedNames
@@ -60,7 +61,9 @@ def get_name_from_uri(uri):
      name = name.replace(' ', '-')
      name = name.replace('_', '-')
      return name
-     
+   
+ # Names in MORElab's Joseki server are a complete chaos, this is an attempt
+ # to normalize the names
 def normalize_name(name):
     name = name.lower()
       
@@ -215,18 +218,27 @@ def get_relations():
 
 # exports the relations in Gelphi's CSV format (as a undirected graph)    
 def export_gephi_csv(relations):
-    with open('coauthors.csv', 'wb') as csvfile:
+    with open('./data/coauthors.csv', 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter=';')
         for authors in relations:
             for author in authors:
                 ind = authors.index(author)
                 for i in range(ind+1, len(authors)):
                     row = [author, authors[i]]
-                    writer.writerow(row)           
+                    writer.writerow(row)     
+
+def export_igraph_edgelist(relations):
+     with open('./data/coauthors.txt', 'w') as file:
+        for authors in relations:
+            for author in authors:
+                ind = authors.index(author)
+                for i in range(ind+1, len(authors)):
+                    file.write(author + " " + authors[i] + "\n")    
             
             
 rel = get_relations()
 export_gephi_csv(rel)
+export_igraph_edgelist(rel)
         
 
                             
