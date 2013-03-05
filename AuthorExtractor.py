@@ -227,7 +227,7 @@ def export_gephi_csv(relations):
                     row = [author, authors[i]]
                     writer.writerow(row)     
 
-def export_igraph_edgelist(relations):
+def export_igraph_ncol(relations):
      with open('./data/coauthors.txt', 'w') as file:
         for authors in relations:
             for author in authors:
@@ -238,7 +238,7 @@ def export_igraph_edgelist(relations):
             
 rel = get_relations()
 export_gephi_csv(rel)
-export_igraph_edgelist(rel)
+export_igraph_ncol(rel)
         
 
                             
