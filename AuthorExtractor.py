@@ -57,7 +57,8 @@ def get_authors(page, morelabMembers):
 def is_malformed(name):
     malformedNames = ['fern', 'others', 'deusto',  'd.t.t.f.', 'spain', 'd.b.']
     return name in malformedNames
-    
+ 
+# it takes into account also past members   
 def is_morelab_member(name):
     morelabMembers = ['dipina', 'jon-legarda', 'ana-belen-lago', 'josuka', 
                       'bernhard-klein', 'federico-castanedo', 'unai-aguilera',
@@ -66,7 +67,11 @@ def is_morelab_member(name):
                       'jon-echevarria', 'xabier-eguiluz', 'aitor-gomez-goiri',
                       'szilard-kados', 'janire-larranaga', 'ivan-pretel',
                       'koldo-zabaleta', 'david-ausin','diego-casado', 'mikel-emaldi',
-                      'jon-lazaro', 'juan-armentia', 'oscar-pena', 'juan-sixto']
+                      'jon-lazaro', 'juan-armentia', 'oscar-pena', 'juan-sixto',
+                      'xabier-laiseca', 'christian-guggenmos', 'sergio-blanco', 
+                      'juan-ignacio-vazquez', 'ignacio-sarralde', 'iker-larizgoitia',
+                      'leire-muguira', 'iker-doamo', 'asier-arruti', 'david-sainz',
+                      'jon-valdes', 'inigo-sedano']
     return name in morelabMembers                
 
 def get_name_from_uri(uri):
@@ -218,6 +223,8 @@ def normalize_name(name):
         name = "g-gil" 
     elif u"gil, c" in name:
         name = "c-gil" 
+    elif u"larrañaga" in name:
+        name = "janire-larranaga" 
     elif "," in name:
         name = name.split(',')[0]
  
@@ -232,15 +239,27 @@ def get_relations(morelabMembers):
     return relations
 
 # exports the relations in Gelphi's CSV format (as a undirected graph)    
-def export_gephi_csv(relations):
-    with open('./data/coauthors.csv', 'wb') as csvfile:
+def export_gephi_csv_undirected(relations):
+    with open('./data/coauthorsUndirected.csv', 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter=';')
         for authors in relations:
             for author in authors:
                 ind = authors.index(author)
                 for i in range(ind+1, len(authors)):
                     row = [author, authors[i]]
-                    writer.writerow(row)     
+                    writer.writerow(row) 
+
+# exports the relations in Gelphi's CSV format (as a directed graph, assuming that
+# the first author adds the others to the paper)    
+def export_gephi_csv_directed(relations):
+    with open('./data/coauthorsDirected.csv', 'wb') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';')
+        for authors in relations:
+            if len(authors) > 1:
+                author = authors[0]
+                for i in range(1, len(authors)):
+                        row = [author, authors[i]]
+                        writer.writerow(row)    
 
 # exports the relations in iGraph ncol format (as a undirected graph)  
 def export_igraph_ncol(relations):
@@ -252,8 +271,11 @@ def export_igraph_ncol(relations):
                     file.write(author + " " + authors[i] + "\n")    
             
             
-rel = get_relations(False)
-export_gephi_csv(rel)
+rel = get_relations(True)
+export_gephi_csv_undirected(rel)
+export_igraph_ncol(rel)
+
+export_gephi_csv_directed(rel)
 export_igraph_ncol(rel)
         
 
