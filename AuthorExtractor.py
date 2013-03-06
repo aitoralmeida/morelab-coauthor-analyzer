@@ -25,7 +25,7 @@ def get_articles():
         pages.append(binding["page"]["value"])
     return pages
 
-def get_authors(page):
+def get_authors(page, morelabMembers):
     MORELAB_URL_SEARCH = "http://www.morelab.deusto.es/joseki/articles?query="
     QUERY_GET_AUTHORS_START =  (    u"""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> """
                                     u"""PREFIX dc: <http://purl.org/dc/elements/1.1/>"""
@@ -46,13 +46,28 @@ def get_authors(page):
             name = get_name_from_uri(name) 
         name = normalize_name(name)
         if not is_malformed(name):
-            authors.append(name.encode('utf-8'))
+            if morelabMembers:
+                if is_morelab_member(name):
+                    authors.append(name.encode('utf-8'))
+            else:
+                authors.append(name.encode('utf-8'))
     return authors
     
 # There are several malformed names in MORElab's publication repository
 def is_malformed(name):
     malformedNames = ['fern', 'others', 'deusto',  'd.t.t.f.', 'spain', 'd.b.']
     return name in malformedNames
+    
+def is_morelab_member(name):
+    morelabMembers = ['dipina', 'jon-legarda', 'ana-belen-lago', 'josuka', 
+                      'bernhard-klein', 'federico-castanedo', 'unai-aguilera',
+                      'aitor-almeida', 'david-bujan', 'juanma-lopez', 'pablo-orduna',
+                      'jonathan-garibay', 'eduardo-castillejo', 'pablo-curiel',
+                      'jon-echevarria', 'xabier-eguiluz', 'aitor-gomez-goiri',
+                      'szilard-kados', 'janire-larranaga', 'ivan-pretel',
+                      'koldo-zabaleta', 'david-ausin','diego-casado', 'mikel-emaldi',
+                      'jon-lazaro', 'juan-armentia', 'oscar-pena', 'juan-sixto']
+    return name in morelabMembers                
 
 def get_name_from_uri(uri):
      name = uri.split('/')[-1]
@@ -208,11 +223,11 @@ def normalize_name(name):
  
     return name
                       
-def get_relations():
+def get_relations(morelabMembers):
     pages = get_articles()
     relations =[]
     for page in pages:
-        authors = get_authors(page)
+        authors = get_authors(page, morelabMembers)
         relations.append(authors)
     return relations
 
@@ -227,6 +242,7 @@ def export_gephi_csv(relations):
                     row = [author, authors[i]]
                     writer.writerow(row)     
 
+# exports the relations in iGraph ncol format (as a undirected graph)  
 def export_igraph_ncol(relations):
      with open('./data/coauthors.txt', 'w') as file:
         for authors in relations:
@@ -236,7 +252,7 @@ def export_igraph_ncol(relations):
                     file.write(author + " " + authors[i] + "\n")    
             
             
-rel = get_relations()
+rel = get_relations(False)
 export_gephi_csv(rel)
 export_igraph_ncol(rel)
         
