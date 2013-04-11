@@ -86,7 +86,7 @@ def get_name_from_uri(uri):
  # to normalize the names
 def normalize_name(name):
     name = name.lower()
-      
+    # Behold the infinite IF (redo it asap)  
     if u"ipiña" in name:
         name = "dipina"
     elif u"de-ipina" in name:
@@ -231,7 +231,9 @@ def normalize_name(name):
     return name
                       
 def get_relations(morelabMembers):
+    print "get_relations: recovering articles"    
     pages = get_articles()
+    print "get_relations: recovering authors"    
     relations =[]
     for page in pages:
         authors = get_authors(page, morelabMembers)
@@ -250,18 +252,21 @@ def export_gephi_csv_undirected(relations):
                     writer.writerow(row) 
 
 # exports the relations in Gelphi's CSV format (as a directed graph, assuming that
-# the first author adds the others to the paper)    
+# the first author adds the others to the paper)   
+# !!!!!!!!! Doesnt work, author order in the repository is random !!!!!!
+# e.g http://www.morelab.deusto.es/page/an-approach-to-automatic-generation-of-fuzzy-membership-functions-using-popularity-metrics 
 def export_gephi_csv_directed(relations):
     with open('./data/coauthorsDirected.csv', 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter=';')
         for authors in relations:
+            print authors
             if len(authors) > 1:
                 author = authors[0]
                 for i in range(1, len(authors)):
-                        row = [author, authors[i]]
-                        writer.writerow(row)    
+                    row = [author, authors[i]]
+                    writer.writerow(row)    
 
-# exports the relations in iGraph ncol format (as a undirected graph)  
+# exports the relations in ncol/edgelist format (as a undirected graph)  
 def export_igraph_ncol(relations):
      with open('./data/coauthors.txt', 'w') as file:
         for authors in relations:
@@ -271,14 +276,16 @@ def export_igraph_ncol(relations):
                     file.write(author + " " + authors[i] + "\n")    
             
             
+print "Recovering relations"
 rel = get_relations(True)
+print "Exporting gephi"
 export_gephi_csv_undirected(rel)
-export_igraph_ncol(rel)
-
 export_gephi_csv_directed(rel)
+print "exporting ncol"
+export_igraph_ncol(rel)
 export_igraph_ncol(rel)
         
-
+# !!!!!!!!!!!! DO THE RELATIONS WITHOUT DIEGO !!!!!!!!!!!!!!
                             
     
 
