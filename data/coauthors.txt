@@ -45,13 +45,11 @@ david-bujan dipina
 david-bujan unai-aguilera
 unai-aguilera josuka
 unai-aguilera dipina
-unai-aguilera unai-aguilera
 josuka dipina
 josuka unai-aguilera
 dipina unai-aguilera
 unai-aguilera josuka
 unai-aguilera dipina
-unai-aguilera unai-aguilera
 juan-ignacio-vazquez dipina
 juan-ignacio-vazquez dipina
 pablo-orduna dipina
@@ -204,11 +202,9 @@ unai-aguilera aitor-gomez-goiri
 leire-muguira juan-ignacio-vazquez
 pablo-orduna dipina
 pablo-orduna dipina
-josuka josuka
 josuka dipina
 josuka david-bujan
 josuka unai-aguilera
-josuka josuka
 josuka dipina
 josuka david-bujan
 josuka unai-aguilera
@@ -277,5 +273,3 @@ juan-ignacio-vazquez dipina
 inigo-sedano dipina
 juan-ignacio-vazquez dipina
 juan-ignacio-vazquez dipina
-dipina dipina
-dipina dipina

@@ -248,8 +248,9 @@ def export_gephi_csv_undirected(relations):
             for author in authors:
                 ind = authors.index(author)
                 for i in range(ind+1, len(authors)):
-                    row = [author, authors[i]]
-                    writer.writerow(row) 
+                    if author != authors[i]:
+                        row = [author, authors[i]]
+                        writer.writerow(row) 
 
 # exports the relations in Gelphi's CSV format (as a directed graph, assuming that
 # the first author adds the others to the paper)   
@@ -263,8 +264,9 @@ def export_gephi_csv_directed(relations):
             if len(authors) > 1:
                 author = authors[0]
                 for i in range(1, len(authors)):
-                    row = [author, authors[i]]
-                    writer.writerow(row)    
+                    if author != authors[i]:                    
+                        row = [author, authors[i]]
+                        writer.writerow(row)    
 
 # exports the relations in ncol/edgelist format (as a undirected graph)  
 def export_igraph_ncol(relations):
@@ -273,17 +275,19 @@ def export_igraph_ncol(relations):
             for author in authors:
                 ind = authors.index(author)
                 for i in range(ind+1, len(authors)):
-                    file.write(author + " " + authors[i] + "\n")    
+                    if author != authors[i]:    
+                        file.write(author + " " + authors[i] + "\n")    
             
             
 print "Recovering relations"
 rel = get_relations(True)
 print "Exporting gephi"
 export_gephi_csv_undirected(rel)
-export_gephi_csv_directed(rel)
+#export_gephi_csv_directed(rel)
 print "exporting ncol"
 export_igraph_ncol(rel)
 export_igraph_ncol(rel)
+print "done"
         
 # !!!!!!!!!!!! DO THE RELATIONS WITHOUT DIEGO !!!!!!!!!!!!!!
                             
