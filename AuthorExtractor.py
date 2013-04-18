@@ -221,6 +221,8 @@ def normalize_name(name):
         name = "g-diaz" 
     elif u"gil, g" in name:
         name = "g-gil" 
+    elif u"doamo" in name:
+        name = "iker-doamo" 
     elif u"gil, c" in name:
         name = "c-gil" 
     elif u"larrañaga" in name:
@@ -280,7 +282,7 @@ def export_igraph_ncol(relations):
             
             
 print "Recovering relations"
-rel = get_relations(True)
+rel = get_relations(False)
 print "Exporting gephi"
 export_gephi_csv_undirected(rel)
 #export_gephi_csv_directed(rel)
