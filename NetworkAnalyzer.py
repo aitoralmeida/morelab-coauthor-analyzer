@@ -12,7 +12,6 @@ from collections import OrderedDict
 import csv
 
 verbose = True
-data_path = "./data/coauthors.txt"
 
 def get_graph(path):
     fh = open(path, 'rb')
@@ -140,8 +139,8 @@ def calculate_k_clique(G, K):
         
     
     
-print 'Analizing co-author data from ' + data_path
-G = get_graph(data_path)
+print 'Analizing co-author data from ' + "./data/coauthors.txt"
+G = get_graph("./data/coauthors.txt")
 get_graph_info(G)
 draw_graph(G)
 
@@ -156,4 +155,4 @@ calculate_pagerank(G)
 calculate_cliques(G)
 calculate_main_k_core(G)
 calculate_k_core(G,4)
-calculate_k_clique(G, 2)
+#calculate_k_clique(G, 2)
