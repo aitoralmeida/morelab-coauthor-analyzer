@@ -279,19 +279,18 @@ def export_igraph_ncol(relations):
                 for i in range(ind+1, len(authors)):
                     if author != authors[i]:    
                         file.write(author + " " + authors[i] + "\n")    
-            
-            
-print "Recovering relations"
-rel = get_relations(False)
-print "Exporting gephi"
-export_gephi_csv_undirected(rel)
-#export_gephi_csv_directed(rel)
-print "exporting ncol"
-export_igraph_ncol(rel)
-export_igraph_ncol(rel)
-print "done"
+    
+if __name__ == '__main__':                 
+    print "Recovering relations"
+    rel = get_relations(False)
+    print "Exporting gephi"
+    export_gephi_csv_undirected(rel)
+    #export_gephi_csv_directed(rel)
+    print "exporting ncol"
+    export_igraph_ncol(rel)
+    export_igraph_ncol(rel)
+    print "done"
         
-# !!!!!!!!!!!! DO THE RELATIONS WITHOUT DIEGO !!!!!!!!!!!!!!
-                            
+
     
 

@@ -136,23 +136,22 @@ def calculate_k_clique(G, K):
         print "k-cliques " + str(K)
     write_csv_groups('./data/results/kClique' + str(K) + '.csv', communities)
 
-        
-    
-    
-print 'Analizing co-author data from ' + "./data/coauthors.txt"
-G = get_graph("./data/coauthors.txt")
-get_graph_info(G)
-draw_graph(G)
 
-#centralities
-calculate_degree_centrality(G)
-calculate_betweenness_centrality(G)
-calculate_closeness_centrality(G)
-calculate_closeness_centrality(G)
-calculate_pagerank(G)
-
-#communities
-calculate_cliques(G)
-calculate_main_k_core(G)
-calculate_k_core(G,4)
-#calculate_k_clique(G, 2)
+if __name__ == '__main__':    
+    print 'Analizing co-author data from ' + "./data/coauthors.txt"
+    G = get_graph("./data/coauthors.txt")
+    get_graph_info(G)
+    draw_graph(G)
+    
+    #centralities
+    calculate_degree_centrality(G)
+    calculate_betweenness_centrality(G)
+    calculate_closeness_centrality(G)
+    calculate_closeness_centrality(G)
+    calculate_pagerank(G)
+    
+    #communities
+    calculate_cliques(G)
+    calculate_main_k_core(G)
+    calculate_k_core(G,4)
+    #calculate_k_clique(G, 2)
